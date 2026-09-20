@@ -2,25 +2,46 @@ using UnityEngine;
 
 public class UIScreens : MonoBehaviour
 {
+    private GameManager gameManager;
+
     [SerializeField] private GameObject winMenu;
     [SerializeField] private GameObject loseMenu;
 
     private void Start()
     {
-        GameManager manager = GameManager.Instance;
+        gameManager = GameManager.Instance;
 
-        manager.OnWin += () => SetActiveWinMenu(true);
-        manager.OnLose += () => SetActiveLoseMenu(true);
-        manager.OnRestart += () => { SetActiveWinMenu(false); SetActiveLoseMenu(false); };
+        gameManager.OnWin += ActivateWinMenu;
+        gameManager.OnLose += ActivateLoseMenu;
+        gameManager.OnRestart += DeactivateWinMenu; 
+        gameManager.OnRestart += DeactivateLoseMenu;
     }
 
-    public void SetActiveWinMenu(bool value)
+    private void OnDestroy()
     {
-        winMenu.SetActive(value);
+        gameManager.OnWin -= ActivateWinMenu;
+        gameManager.OnLose -= ActivateLoseMenu;
+        gameManager.OnRestart -= DeactivateWinMenu; 
+        gameManager.OnRestart -= DeactivateLoseMenu;
     }
 
-    public void SetActiveLoseMenu(bool value)
+    public void ActivateWinMenu()
     {
-        loseMenu.SetActive(value);
+        winMenu.SetActive(true);
+    }
+
+    public void DeactivateWinMenu()
+    {
+        winMenu.SetActive(false);
+    }
+
+    public void ActivateLoseMenu()
+    {
+        loseMenu.SetActive(true);
+    }
+
+    public void DeactivateLoseMenu()
+    {
+        loseMenu.SetActive(false);
     }
 }
