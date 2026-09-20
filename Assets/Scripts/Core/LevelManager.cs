@@ -33,8 +33,7 @@ public class LevelManager : MonoBehaviour
 
     private void Restart()
     {
-        DespwanCar();
-        DespawnEnemies();
+        SpawnManager.Instance.DespawnAll();
 
         SpawnCar();
         SpawnEnemies();
@@ -58,19 +57,6 @@ public class LevelManager : MonoBehaviour
             Quaternion spawnRotation = Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f);
 
             SpawnManager.Instance.Spawn(enemy, spawnPosition, spawnRotation, enemiesContainer);
-        }
-    }
-
-    private void DespwanCar()
-    {
-        Car.Despawn();
-    }
-
-    private void DespawnEnemies()
-    {
-        for (int i = enemiesContainer.childCount - 1; i > 0; i--)
-        {
-            enemiesContainer.GetChild(i).GetComponent<BaseEnemy>().Despawn();
         }
     }
 }

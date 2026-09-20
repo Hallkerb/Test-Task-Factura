@@ -53,8 +53,6 @@ public class GameManager : MonoBehaviour
     {
         OnWin?.Invoke();
         EndGame();
-
-        Debug.Log("You Finished!");
     }
 
     private void Lose(IHealth health)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BaseEnemy : SpawnableObject
 {
-    private IHealth health;
+    protected IHealth health;
 
     [SerializeField] private float damage = 10;
 

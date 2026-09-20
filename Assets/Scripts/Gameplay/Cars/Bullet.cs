@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Bullet : SpawnableObject, ISpawnable
 {
+    private TrailRenderer trail;
+
     [SerializeField] private Team targetTeam;
 
     [SerializeField] private float speed = 10;
@@ -11,10 +13,17 @@ public class Bullet : SpawnableObject, ISpawnable
     
     private float traveledDistance;
 
+    private void Awake()
+    {
+        trail = GetComponent<TrailRenderer>();
+    }
 
     protected override void OnEnable()
     {
         traveledDistance = 0f;
+
+        if (trail != null)
+            trail.Clear();
         
         base.OnEnable();
     }

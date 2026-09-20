@@ -8,4 +8,6 @@ public interface ISpawnable
     GameObject GameObject { get; }
 
     event Action<SpawnableType, ISpawnable> OnDespawn;
+
+    void Despawn();
 }

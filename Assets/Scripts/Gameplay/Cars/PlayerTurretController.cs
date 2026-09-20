@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerTurretController : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private CarTurretMovement movement;
     private Camera mainCamera;
 
@@ -26,11 +28,15 @@ public class PlayerTurretController : MonoBehaviour
     public void StartAim()
     { 
         canAim = true;
+
+        lineRenderer.enabled = true;
     }
 
     public void StopAim()
     {
         canAim = false;
+
+        lineRenderer.enabled = false;
     }
 
     private bool TryGetPointerWorldPosition(out Vector3 position)

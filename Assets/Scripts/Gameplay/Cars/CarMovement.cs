@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CarMovement : MonoBehaviour
@@ -7,6 +8,9 @@ public class CarMovement : MonoBehaviour
     private bool canMove;
 
     public float Speed => speed;
+
+    public event Action OnMoveStart;
+    public event Action OnMoveEnd;
 
     void Update()
     {
@@ -18,11 +22,15 @@ public class CarMovement : MonoBehaviour
     public void StartMove()
     {
         canMove = true;
+
+        OnMoveStart?.Invoke();
     }
 
     public void StopMove()
     {
         canMove = false;
+
+        OnMoveEnd?.Invoke();
     }
 
     private void Move()

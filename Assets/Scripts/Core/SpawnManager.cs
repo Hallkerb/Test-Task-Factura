@@ -18,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     private Dictionary<SpawnableType, ISpawnable> prefabs = new();
     private Dictionary<SpawnableType, Stack<ISpawnable>> pool = new();
 
+    private Dictionary<SpawnableType, List<ISpawnable>> instantiatedObjects = new();
+
     private void Awake()
     {
         Instance = this;
@@ -50,13 +52,20 @@ public class SpawnManager : MonoBehaviour
             obj = Instantiate(spawnable.GameObject, position, rotation, parent);
             
             if (obj.TryGetComponent(out SpawnableObject spawnableObject))
+            {
                 spawnable = spawnableObject;
+
+                if (instantiatedObjects.ContainsKey(type) == false)
+                    instantiatedObjects.Add(type, new List<ISpawnable>());
+                
+                instantiatedObjects[type].Add(spawnable);
+            }
         }
         
         spawnable.OnDespawn += Despawn;
 
         if (obj.TryGetComponent(out IHealth health))
-            UIHealthPool.Instance.Get(health, obj.transform);
+            UIHealthPool.Instance.Get(spawnable, health, obj.transform);
 
         return obj;
     }
@@ -66,11 +75,22 @@ public class SpawnManager : MonoBehaviour
         obj.OnDespawn -= Despawn;
         obj.GameObject.SetActive(false);
 
-        if (!pool.ContainsKey(type))
+        if (pool.ContainsKey(type) == false)
         {
             pool[type] = new Stack<ISpawnable>();
         }
 
         pool[type].Push(obj);
+    }
+
+    public void DespawnAll()
+    {
+        foreach(var pair in instantiatedObjects)
+        {
+            for (int i = pair.Value.Count - 1; i >= 0; i--)
+            {
+                pair.Value[i].Despawn();
+            }
+        }
     }
 }

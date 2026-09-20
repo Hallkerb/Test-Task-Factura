@@ -14,7 +14,7 @@ public class UIHealthPool : MonoBehaviour
         Instance = this;
     }
 
-    public UIHealth Get(IHealth health, Transform healthTransform)
+    public UIHealth Get(ISpawnable spawnable, IHealth health, Transform healthTransform)
     {
         UIHealth uiHealth;
 
@@ -30,18 +30,18 @@ public class UIHealthPool : MonoBehaviour
 
         uiHealth.Initialize(health, healthTransform);
 
-        health.OnDied += OnUnitDied;
+        spawnable.OnDespawn += OnDespawnHandler;
 
-        void OnUnitDied(IHealth deadHealth)
+        void OnDespawnHandler(SpawnableType type, ISpawnable spawnable)
         {
-            health.OnDied -= OnUnitDied;
+            spawnable.OnDespawn -= OnDespawnHandler;
             ReturnToPool(uiHealth);
         }
 
         return uiHealth;
     }
 
-    public void ReturnToPool(UIHealth uiHealth)
+    private void ReturnToPool(UIHealth uiHealth)
     {
         uiHealth.gameObject.SetActive(false);
         pool.Push(uiHealth);

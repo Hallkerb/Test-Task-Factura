@@ -82,11 +82,19 @@ PrefabInstance:
       addedObject: {fileID: 2152954314537264559}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e51c833ff18b90247839fb90b8042144, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5339393831867352652}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e51c833ff18b90247839fb90b8042144, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1051661181693623773}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e51c833ff18b90247839fb90b8042144, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1460140310976316839}
   m_SourcePrefab: {fileID: 100100000, guid: e51c833ff18b90247839fb90b8042144, type: 3}
+--- !u!137 &2268047072557996558 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7307535121243759794, guid: e51c833ff18b90247839fb90b8042144, type: 3}
+  m_PrefabInstance: {fileID: 8795579217162272444}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &3133020018737103661 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: e51c833ff18b90247839fb90b8042144, type: 3}
@@ -113,6 +121,7 @@ MonoBehaviour:
   damage: 10
   movement: {fileID: -3705994497048290280}
   animatorController: {fileID: 2152954314537264559}
+  hitFeedback: {fileID: 5339393831867352652}
 --- !u!114 &-3705994497048290280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +164,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StickmanAnimatorController
   animator: {fileID: 3133020018737103661}
+--- !u!114 &5339393831867352652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8561700660608680941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f306d18fc20f0264490ec825ed6a9152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFeedback
+  characterRenderer: {fileID: 2268047072557996558}
+  flashDuration: 0.08
 --- !u!136 &1051661181693623773
 CapsuleCollider:
   m_ObjectHideFlags: 0

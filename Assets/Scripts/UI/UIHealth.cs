@@ -16,6 +16,12 @@ public class UIHealth : MonoBehaviour
 
     [SerializeField] private float animationDamageDuration = 0.5f;
 
+    [Header("Scaling Settings")]
+    [SerializeField] private float minScale = 0.4f;
+    [SerializeField] private float maxScale = 1.0f;
+    [SerializeField] private float minDistance = 5f;
+    [SerializeField] private float maxDistance = 30f;
+
     private Vector3 offset;
 
     private bool isActive = true;
@@ -29,14 +35,15 @@ public class UIHealth : MonoBehaviour
 
     private void OnDisable()
     {
-        Untrack(health);
+        Untrack();
     }
 
     void LateUpdate()
     {
         if (health == null) return;
 
-        Vector3 screenPoint = mainCamera.WorldToScreenPoint(healthTransform.position + offset);
+        Vector3 targetWorldPosition = healthTransform.position + offset;
+        Vector3 screenPoint = mainCamera.WorldToScreenPoint(targetWorldPosition);
 
         transform.position = screenPoint;
 
@@ -52,6 +59,13 @@ public class UIHealth : MonoBehaviour
         {
             if (isActive == false) 
                 SetVisible(true);
+
+            float distance = Vector3.Distance(mainCamera.transform.position, targetWorldPosition);
+            
+            float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
+            float currentScale = Mathf.Lerp(maxScale, minScale, t);
+
+            transform.localScale = new Vector3(currentScale, currentScale, currentScale);
         }
         else
         {
@@ -107,7 +121,7 @@ public class UIHealth : MonoBehaviour
         damageImage.enabled = value;
     }
 
-    private void Follow(IHealth health)
+    private void Follow()
     {
         if (health == null) return;
 
@@ -117,7 +131,7 @@ public class UIHealth : MonoBehaviour
         health.OnDamageTaken += DamageTaken;
     }
 
-    private void UnFollow(IHealth health)
+    private void UnFollow()
     {
         if (health == null) return;
 
@@ -126,23 +140,21 @@ public class UIHealth : MonoBehaviour
         StopHealthCoroutine();
     }
 
-    private void Untrack(IHealth health)
+    private void Untrack()
     {
-        UnFollow(health);
+        UnFollow();
 
-        this.health = null;
+        health = null;
         healthTransform = null;
     }
 
     public void Initialize(IHealth health, Transform healthTransform)
     {
-        Untrack(this.health);
-
         this.health = health;
         this.healthTransform = healthTransform;
 
         offset = health.UIOffset;
 
-        Follow(health);
+        Follow();
     }
 }
