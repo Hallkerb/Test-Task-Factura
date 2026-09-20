@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class BaseCar : SpawnableObject
 {
+    private GameManager gameManager;
+
     [SerializeField] private CarMovement movement;
     [SerializeField] private CarTurret turret;
     [SerializeField] private Health health;
@@ -29,11 +31,24 @@ public abstract class BaseCar : SpawnableObject
 
     private void Start()
     {
-        health.OnDied += (IHealth health) => Despawn();
+        health.OnDied += OnDiedHandler;
 
-        GameManager manager = GameManager.Instance;
-        manager.OnStart += StartRace;
-        manager.OnEnd += StopRace;
+        gameManager = GameManager.Instance;
+        gameManager.OnStart += StartRace;
+        gameManager.OnEnd += StopRace;
+    }
+
+    private void OnDestroy()
+    {
+        health.OnDied -= OnDiedHandler;
+
+        gameManager.OnStart -= StartRace;
+        gameManager.OnEnd -= StopRace;
+    }
+
+    private void OnDiedHandler(IHealth health)
+    {
+        Despawn();
     }
 
     private void OnDamageTaken(float maxHp, float currentHp)
@@ -64,7 +79,7 @@ public abstract class BaseCar : SpawnableObject
     {
         base.ResetState();
 
-        movement.ResetState(Vector3.zero);
+        movement.ResetState();
         turret.ResetState();
         health.ResetState();
     }

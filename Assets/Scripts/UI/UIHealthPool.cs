@@ -14,6 +14,11 @@ public class UIHealthPool : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
     public UIHealth Get(ISpawnable spawnable, IHealth health, Transform healthTransform)
     {
         UIHealth uiHealth;

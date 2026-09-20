@@ -41,15 +41,13 @@ public class PlayerTurretController : MonoBehaviour
 
     private bool TryGetPointerWorldPosition(out Vector3 position)
     {
-        Vector3 inputPosition = GetInputPosition();
-
-        if (inputPosition == Vector3.negativeInfinity)
+        if (TryGetInputPosition(out Vector2 pos) == false)
         {
             position = Vector3.zero;
             return false;
         }
 
-        Ray ray = mainCamera.ScreenPointToRay(inputPosition);
+        Ray ray = mainCamera.ScreenPointToRay(pos);
         Plane groundPlane = new Plane(Vector3.up, transform.position);
 
         if (groundPlane.Raycast(ray, out float entryDistance))
@@ -62,20 +60,26 @@ public class PlayerTurretController : MonoBehaviour
         return false;
     }
 
-    private Vector3 GetInputPosition()
+    private bool TryGetInputPosition(out Vector2 pos)
     {
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
         {
             Vector2 touchPos = Touchscreen.current.primaryTouch.position.ReadValue();
-            return new Vector3(touchPos.x, touchPos.y, 0f);
+            pos = new Vector2(touchPos.x, touchPos.y);
+
+            return true;
         }
         else if (Mouse.current != null)
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
-            return new Vector3(mousePos.x, mousePos.y, 0f);
+            pos = new Vector2(mousePos.x, mousePos.y);
+
+            return true;
         }
 
-        return Vector3.negativeInfinity;
+        pos = Vector2.zero;
+
+        return false;
     }
 
     public void ResetState()

@@ -11,13 +11,15 @@ public class UILevelProgress : MonoBehaviour
     [SerializeField] private Transform finish;
     private Transform car;
 
-    [SerializeField] private Vector3 startPoint = Vector3.zero;
+    private Vector3 startPoint;
 
     private Coroutine progressCoroutine;
 
     void Awake()
     {
         levelManager.OnCarSpawned += InitializeCar;
+
+        startPoint = levelManager.CarSpawnPosition;
     }
 
     private void OnEnable()

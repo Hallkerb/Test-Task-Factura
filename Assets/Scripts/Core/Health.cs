@@ -19,21 +19,29 @@ public class Health : MonoBehaviour, IHealth
 
     public event Action<float, float> OnDamageTaken;
     public event Action<IHealth> OnDied;
-    public event Action<IHealth> OnReseted;
+
+    private bool isDead;
 
     public void TakeDamage(float damage)
     {
+        if (isDead) return;
+
         currentHP -= damage;
 
         OnDamageTaken?.Invoke(maxHP, currentHP);
         
-        if (currentHP < 1) OnDied?.Invoke(this);
+        if (currentHP <= 0)
+        {
+            isDead = true;
+
+            OnDied?.Invoke(this);
+        }
     }
 
     public void ResetState()
     {
-        currentHP = maxHP;
+        isDead = false;
 
-        OnReseted?.Invoke(this);
+        currentHP = maxHP;
     }
 }

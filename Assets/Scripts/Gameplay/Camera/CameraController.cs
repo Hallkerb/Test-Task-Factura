@@ -14,6 +14,11 @@ public class CameraController : MonoBehaviour
         levelManager.OnCarSpawned += InitializeCar;
     }
 
+    private void OnDestroy()
+    {
+        levelManager.OnCarSpawned -= InitializeCar;
+    }
+
     private void Start()
     {
         gameManager = GameManager.Instance;

@@ -41,8 +41,8 @@ public class CarMovement : MonoBehaviour
         transform.position = position;
     }
 
-    public void ResetState(Vector3 resetPosition)
+    public void ResetState()
     {
-        transform.position = resetPosition;
+        canMove = false;
     }
 }

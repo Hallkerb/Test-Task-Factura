@@ -5706,7 +5706,7 @@ MonoBehaviour:
   health: {fileID: 3487686278184202803}
   hitFeedback: {fileID: 5973105877977670117}
   effectsController: {fileID: 209185199424501029}
-  animatorController: {fileID: 8820611253243302950}
+  carAnimation: {fileID: 8820611253243302950}
 --- !u!114 &250946034204505907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5719,7 +5719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1413e5ffb108204f8f430aa383c01f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarMovement
-  speed: 4
+  speed: 8
 --- !u!114 &3487686278184202803
 MonoBehaviour:
   m_ObjectHideFlags: 0

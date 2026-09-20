@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Bullet : SpawnableObject, ISpawnable
+public class Bullet : SpawnableObject
 {
     private TrailRenderer trail;
 

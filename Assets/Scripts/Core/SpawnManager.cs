@@ -34,19 +34,24 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
     public GameObject Spawn(SpawnableType type, Vector3 position, Quaternion rotation, Transform parent = null)
     {
         ISpawnable spawnable;
         GameObject obj;
 
-        if (pool[type].TryPop(out ISpawnable pooledObj) && pooledObj != null)
+        if (pool.ContainsKey(type) && pool[type].TryPop(out ISpawnable pooledObj) && pooledObj != null)
         {
             spawnable = pooledObj;
             obj = pooledObj.GameObject;
             obj.transform.SetPositionAndRotation(position, rotation);
             obj.SetActive(true);
         }
-        else
+        else if (prefabs.ContainsKey(type))
         {
             spawnable = prefabs[type];
             obj = Instantiate(spawnable.GameObject, position, rotation, parent);
@@ -60,6 +65,12 @@ public class SpawnManager : MonoBehaviour
                 
                 instantiatedObjects[type].Add(spawnable);
             }
+        }
+        else
+        {
+            Debug.LogError($"No prefab for {type}");
+            
+            return null;
         }
         
         spawnable.OnDespawn += Despawn;

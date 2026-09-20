@@ -2,9 +2,18 @@ using UnityEngine;
 
 public class Stickman : BaseEnemy, IAttackable
 {
+    private GameManager gameManager;
+
     [SerializeField] private StickmanMovement movement;
     [SerializeField] private StickmanAnimatorController animatorController;
     [SerializeField] private HitFeedback hitFeedback;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        gameManager = GameManager.Instance;
+    }
 
     protected override void OnEnable()
     {
@@ -14,6 +23,8 @@ public class Stickman : BaseEnemy, IAttackable
         {
             health.OnDamageTaken += OnDamageTaken;
         }
+
+        gameManager.OnEnd += StopAttack;
     }
 
     private void OnDisable()
@@ -22,6 +33,8 @@ public class Stickman : BaseEnemy, IAttackable
         {
             health.OnDamageTaken -= OnDamageTaken;
         }
+
+        gameManager.OnEnd -= StopAttack;
     }
 
     private void OnDamageTaken(float maxHp, float currentHp)
@@ -30,6 +43,12 @@ public class Stickman : BaseEnemy, IAttackable
         {
             hitFeedback.PlayHitResponse();
         }
+    }
+
+    public void StopAttack()
+    {
+        movement.ResetState();
+        animatorController.ResetState();
     }
 
     public void StartAttack(Transform car)

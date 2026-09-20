@@ -131,7 +131,7 @@ MonoBehaviour:
   spawnableType: 0
   targetTeam: 1
   speed: 40
-  damage: 2
+  damage: 3
   maxRange: 100
 --- !u!96 &9160887834336100435
 TrailRenderer:

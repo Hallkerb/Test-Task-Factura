@@ -863,6 +863,7 @@ MonoBehaviour:
   enemy: 1
   enemiesContainer: {fileID: 1932192942}
   enemySpawnArea: {fileID: 87995023}
+  carSpawnPosition: {x: 0, y: 0, z: 0}
   enemyCount: 20
 --- !u!1 &424765758
 GameObject:
@@ -957,7 +958,6 @@ MonoBehaviour:
   levelManager: {fileID: 411619403}
   progressImage: {fileID: 1584587713}
   finish: {fileID: 1948460795}
-  startPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &462338473
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,7 +1156,7 @@ GameObject:
   - component: {fileID: 619482655}
   - component: {fileID: 619482654}
   m_Layer: 5
-  m_Name: EndButton
+  m_Name: RestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1856,7 +1856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   startButton: {fileID: 2081442054}
-  endButton: {fileID: 619482655}
+  restartButton: {fileID: 619482655}
 --- !u!1 &1583817991
 GameObject:
   m_ObjectHideFlags: 0

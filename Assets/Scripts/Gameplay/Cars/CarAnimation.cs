@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CarAnimatorController : MonoBehaviour
+public class CarAnimation : MonoBehaviour
 {
     [SerializeField] private Transform[] wheels;
     [SerializeField] private float rotationSpeed = 360f;

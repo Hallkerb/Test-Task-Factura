@@ -7,23 +7,16 @@ public class BaseEnemy : SpawnableObject
 
     [SerializeField] private float damage = 10;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         health = GetComponent<IHealth>();
 
         health.OnDied += (IHealth health) => Despawn();
     }
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-
-        ResetState();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out IHealth target) && target.Team == Team.Player)
+        if (other.TryGetComponent(out IHealth target) && target.Team == Team.Player && isDespawned == false)
         {
             target.TakeDamage(damage);
             health.TakeDamage(health.MaxHP);

@@ -5,9 +5,11 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+
+    private GameManager gameManager;
     
     [SerializeField] private Button startButton;
-    [SerializeField] private Button endButton;
+    [SerializeField] private Button restartButton;
 
     public event Action OnStart;
     public event Action OnRestart;
@@ -17,21 +19,29 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+
+        gameManager.OnEnd -= ReactOnEndGame;
+    }
+
     private void Start()
     {
-        GameManager.Instance.OnEnd += ReactOnEndGame;
+        gameManager = GameManager.Instance;
+        gameManager.OnEnd += ReactOnEndGame;
     }
 
     private void OnEnable()
     {
         startButton.onClick.AddListener(StartGame);
-        endButton.onClick.AddListener(RestartGame);
+        restartButton.onClick.AddListener(RestartGame);
     }
 
     private void OnDisable()
     {
         startButton.onClick.RemoveListener(StartGame);
-        endButton.onClick.RemoveListener(RestartGame);
+        restartButton.onClick.RemoveListener(RestartGame);
     }
 
     private void StartGame()
@@ -43,7 +53,7 @@ public class UIManager : MonoBehaviour
 
     private void RestartGame()
     {
-        endButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
         
         OnRestart?.Invoke();
 
@@ -52,6 +62,6 @@ public class UIManager : MonoBehaviour
 
     private void ReactOnEndGame()
     {
-        endButton.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
     }
 }

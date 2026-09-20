@@ -20,6 +20,17 @@ public class HitFeedback : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if (flashCoroutine != null)
+        {
+            StopCoroutine(flashCoroutine);
+            flashCoroutine = null;
+
+            ResetColor();
+        }
+    }
+
     public void PlayHitResponse()
     {
         if (material == null) return;
@@ -39,9 +50,14 @@ public class HitFeedback : MonoBehaviour
 
         yield return new WaitForSeconds(flashDuration);
 
-        material.SetColor(EmissionColorID, Color.black);
-        material.DisableKeyword("_EMISSION");
+        ResetColor();
 
         flashCoroutine = null;
+    }
+
+    private void ResetColor()
+    {
+        material.SetColor(EmissionColorID, Color.black);
+        material.DisableKeyword("_EMISSION");
     }
 }

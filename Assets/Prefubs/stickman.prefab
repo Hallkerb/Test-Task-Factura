@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stickman
   spawnableType: 1
+  health: {fileID: 2570888764973016900}
   damage: 10
   movement: {fileID: -3705994497048290280}
   animatorController: {fileID: 2152954314537264559}

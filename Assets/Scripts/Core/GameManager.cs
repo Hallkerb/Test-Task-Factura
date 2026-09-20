@@ -25,6 +25,16 @@ public class GameManager : MonoBehaviour
         levelManager.OnCarSpawned += InitializeCar;
     }
 
+    private void OnDestroy()
+    {
+        Instance = null;
+
+        levelManager.OnCarSpawned -= InitializeCar;
+        uiManager.OnStart -= StartGame;
+        uiManager.OnRestart -= RestartGame;
+        finishLine.OnFinished -= Win;
+    }
+
     private void Start()
     {
         uiManager = UIManager.Instance;
@@ -46,6 +56,8 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+        car.GetComponent<IHealth>().OnDied -= Lose;
+
         OnEnd?.Invoke();
     }
 

@@ -10,7 +10,6 @@ public interface IHealth : ITeamMember
 
     event Action<float, float> OnDamageTaken;
     event Action<IHealth> OnDied;
-    event Action<IHealth> OnReseted;
 
     void TakeDamage(float damage);
 

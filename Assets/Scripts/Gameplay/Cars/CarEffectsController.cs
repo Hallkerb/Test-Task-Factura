@@ -12,7 +12,7 @@ public class CarEffectsController : MonoBehaviour
         {
             for (int i = 0; i < trail.Length; i++)
             {
-                if (trail != null)
+                if (trail[i] != null)
                     trail[i].Clear();
             }
         }
